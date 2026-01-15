@@ -5,7 +5,7 @@ import { LoginResType } from "@/schemaValidations/auth.schema";
 
 const ENTITY_ERROR_STATUS = 422; // lỗi xác thực cú pháp email...
 const AUTHENTICATION_ERROR_STATUS = 401; // lỗi authen
-interface EntityErrorPayload {
+interface EntityErrorResponse {
   message: string;
   errors: {
     field: string;
@@ -39,13 +39,13 @@ export class HttpError extends Error {
 
 export class EntityError extends HttpError {
   status: typeof ENTITY_ERROR_STATUS;
-  payload: EntityErrorPayload;
+  payload: EntityErrorResponse;
   constructor({
     payload,
     status = 422,
   }: {
     status?: typeof ENTITY_ERROR_STATUS;
-    payload: EntityErrorPayload;
+    payload: EntityErrorResponse;
   }) {
     super({ status, payload, message: "Entity Error" }); // Lỗi thực thể
     //Tuy nhiên, trong TypeScript, đôi khi bạn sẽ thấy người ta viết lại như vậy vì lý do Thu hẹp kiểu dữ liệu (Type Narrowing).
@@ -136,7 +136,7 @@ const request = async <Response>(
       throw new EntityError(
         data as {
           status: 422;
-          payload: EntityErrorPayload;
+          payload: EntityErrorResponse;
         }
       );
     } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
