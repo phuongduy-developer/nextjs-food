@@ -1,7 +1,12 @@
 import { clsx, type ClassValue } from "clsx";
 import { UseFormSetError } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-import { EntityError, HttpError } from "./http";
+import {
+  accessTokenKey,
+  EntityError,
+  HttpError,
+  refreshTokenKey,
+} from "./http";
 import { toast } from "sonner";
 
 export function cn(...inputs: ClassValue[]) {
@@ -31,3 +36,11 @@ export const handleErrorApi = ({
     });
   }
 };
+
+const isClient = typeof window !== "undefined";
+
+export const getAccessTokenFromLocalStorage = () =>
+  isClient ? localStorage.getItem(accessTokenKey) : null;
+
+export const getRefreshTokenFromLocalStorage = () =>
+  isClient ? localStorage.getItem(refreshTokenKey) : null;
