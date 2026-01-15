@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 import envConfig from "@/config";
 import { LoginResType } from "@/schemaValidations/auth.schema";
 
-const ENTITY_ERROR_STATUS = 422;
-const AUTHENTICATION_ERROR_STATUS = 401;
+const ENTITY_ERROR_STATUS = 422; // lỗi xác thực cú pháp email...
+const AUTHENTICATION_ERROR_STATUS = 401; // lỗi authen
 interface EntityErrorPayload {
   message: string;
   errors: {
@@ -25,7 +25,10 @@ export class HttpError extends Error {
     message = "Http Error",
   }: {
     status: number;
-    payload: any;
+    payload: {
+      message: string;
+      [key: string]: any;
+    };
     message?: string;
   }) {
     super(message);
@@ -167,16 +170,22 @@ const request = async <Response>(
         redirect(`/logout?accessToken=${accessToken}`);
       }
     } else {
-      throw new HttpError(data);
+      throw new HttpError(
+        data as {
+          status: number;
+          payload: {
+            message: string;
+            [key: string]: any;
+          };
+        }
+      );
     }
   }
 
   // Đảm bảo logic dưới đây chỉ chạy ở phía client (browser) để xét login và register
   if (isClient) {
     const normalizeUrl = normalizePath(url);
-    if (
-     normalizeUrl === "api/auth/login"
-    ) {
+    if (normalizeUrl === "api/auth/login") {
       const { accessToken, refreshToken } = (payload as LoginResType).data;
       localStorage.setItem(accessTokenKey, accessToken);
       localStorage.setItem(refreshTokenKey, refreshToken);
