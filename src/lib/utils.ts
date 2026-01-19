@@ -21,10 +21,10 @@ export const handleErrorApi = ({
   duration,
 }: {
   error?: HttpError;
-  setError: UseFormSetError<any>;
+  setError?: UseFormSetError<any>;
   duration?: number;
 }) => {
-  if (error instanceof EntityError) {
+  if (error instanceof EntityError && setError) {
     error.payload.errors.forEach((error) => {
       setError(error.field, {
         message: error.message,

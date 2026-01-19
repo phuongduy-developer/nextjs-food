@@ -94,8 +94,8 @@ const request = async <Response>(
     body instanceof FormData
       ? {}
       : {
-          "Content-Type": "application/json",
-        };
+        "Content-Type": "application/json",
+      };
   //    Dùng hàm isClient() cho phép kiểm tra lại mỗi lần gọi, đảm bảo kết quả chính xác ở cả server và client.
   if (isClient) {
     const accessToken = localStorage.getItem(accessTokenKey);

@@ -10,7 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import DarkModeToggle from "@/components/dark-mode-toggle";
-import NavItems from "@/app/(public)/nav-items";
+import NavItems from "@/app/(public)/(auth)/components/nav-items";
 
 export default function Layout({
   children,

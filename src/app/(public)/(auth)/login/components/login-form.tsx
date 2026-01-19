@@ -12,11 +12,14 @@ import { Form } from "@/components/ui/form";
 import { LoginBody, LoginBodyType } from "@/schemaValidations/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Field from "@/components/field";
-import { useLoginMutation } from "@/queries/useAuth";
+import { useLoginMutation } from "@/queries/auth/useLoginMutaion";
 import { toast } from "sonner";
 import { handleErrorApi } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { navigation } from "@/constants/navigation";
 
 export default function LoginForm() {
+  const router = useRouter()
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody),
     defaultValues: {
@@ -32,6 +35,8 @@ export default function LoginForm() {
     loginFn(data, {
       onSuccess(data) {
         toast.success(data.payload.message);
+        router.replace(navigation.MANAGE.dashboard)
+        router.refresh()
       },
       onError(error) {
         handleErrorApi({
