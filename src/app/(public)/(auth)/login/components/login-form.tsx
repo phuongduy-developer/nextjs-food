@@ -35,7 +35,7 @@ export default function LoginForm() {
     loginFn(data, {
       onSuccess(data) {
         toast.success(data.payload.message);
-        router.replace(navigation.MANAGE.dashboard)
+        router.replace(navigation.MANAGE.DASHBOARD)
         router.refresh()
       },
       onError(error) {
