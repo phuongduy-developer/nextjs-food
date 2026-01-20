@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { accessTokenKey } from "./lib/http";
 import { navigation, UNAUTHORIZED_PATH } from "./constants/navigation";
 
-const privatePaths = [navigation.MANAGE.DASHBOARD];
+const privatePaths = [navigation.MANAGE.DASHBOARD, navigation.MANAGE.SETTING];
 const unAuthPaths = Object.values(UNAUTHORIZED_PATH);
 
 // This function can be marked `async` if using `await` inside

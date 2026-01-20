@@ -4,7 +4,6 @@ import { twMerge } from "tailwind-merge";
 import {
   accessTokenKey,
   EntityError,
-  HttpError,
   refreshTokenKey,
 } from "./http";
 import { toast } from "sonner";
@@ -20,7 +19,7 @@ export const handleErrorApi = ({
   setError,
   duration,
 }: {
-  error?: HttpError;
+  error?: any;
   setError?: UseFormSetError<any>;
   duration?: number;
 }) => {
