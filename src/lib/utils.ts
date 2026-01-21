@@ -7,6 +7,7 @@ import {
   refreshTokenKey,
 } from "./http";
 import { toast } from "sonner";
+import { isEqual, pick } from "lodash";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -43,3 +44,20 @@ export const getAccessTokenFromLocalStorage = () =>
 
 export const getRefreshTokenFromLocalStorage = () =>
   isClient ? localStorage.getItem(refreshTokenKey) : null;
+/**
+ * Hàm so sánh 2 object có cùng các fields
+ * @param obj1 - Object thứ nhất
+ * @param obj2 - Object thứ hai
+ * @param fields - Các fields cần so sánh
+ * @returns true nếu 2 object bằng nhau, false nếu không bằng nhau
+ * @example
+ */
+export const object = {
+  isEqual: (obj1: Record<string, any>, obj2: Record<string, any>, ...fields: string[]) => {
+    if (fields.length > 0) {
+      return isEqual(pick(obj1, ...fields), pick(obj2, ...fields));
+    }
+
+    return isEqual(obj1, obj2);
+  },
+};

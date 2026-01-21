@@ -8,7 +8,7 @@ import { Form } from '@/components/ui/form'
 import Field from '@/components/field'
 import ImageUploadField from '@/components/image-upload-field'
 import { useUploadImage } from '@/queries/media/useUploadImage'
-import { handleErrorApi } from '@/lib/utils'
+import { handleErrorApi, object } from '@/lib/utils'
 import { useUpdateMe } from '@/queries/account/useUpdateMe'
 import { toast } from 'sonner'
 import { useGetMe } from '@/queries/account/useGetMe'
@@ -46,27 +46,24 @@ export default function UpdateProfileForm() {
     try {
       let avatarUrl: string | undefined;
 
-      // Chỉ upload nếu avatar là File mới
-      if (data.avatar instanceof File) {
-        avatarUrl = await uploadImage(data.avatar);
-      } else if (typeof data.avatar === 'string' && data.avatar) {
-        // Nếu avatar là string (URL hiện tại), giữ nguyên
-        avatarUrl = data.avatar;
+      const isEqual = object.isEqual(data, profile?.payload?.data || {}, 'name', 'avatar')
+      if (isEqual) {
+        return toast.success('Vui lòng cập nhật thông tin mới')
       }
+      //khi có đổi ảnh
+      if (data.avatar instanceof File) {
+        avatarUrl = await uploadImage(data.avatar)
+      }
+      const payload = avatarUrl ? { ...data, avatar: avatarUrl } : {name: data.name}
 
-      // Luôn gọi updateProfile với name (bắt buộc), avatar chỉ thêm nếu có
-      const updateData: UpdateMeBodyType = {
-        name: data.name,
-        ...(avatarUrl && { avatar: avatarUrl })
-      };
+      const { payload: { message } } = await updateProfile(payload)
 
-      const res = await updateProfile(updateData);
-      toast.success(res.payload.message || 'Cập nhật thông tin thành công');
+      return toast.success(message)
     } catch (error) {
       handleErrorApi({
         error,
-        setError,
-      });
+        setError
+      })
     }
   };
 
