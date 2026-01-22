@@ -17,11 +17,6 @@ import { useRouter } from 'next/navigation'
 import { navigation } from '@/constants/navigation'
 import { useGetMe } from '@/queries/account/useGetMe'
 
-const account = {
-  name: 'Nguyễn Văn A',
-  avatar: 'https://i.pravatar.cc/150'
-}
-
 export default function DropdownAvatar() {
   const { replace } = useRouter()
   const { data: account } = useGetMe()

@@ -66,64 +66,65 @@ const ImageUploadField = <T extends FieldValues>(
             inputRef.current.value = "";
         }
     }
-
     return (
         <FormField
             control={form.control}
             name={name}
-            render={({ field }) => (
-                <FormItem>
-                    <div className="w-[300px] overflow-hidden cursor-pointer">
-                        <FormLabel className="text-white flex flex-col items-start" htmlFor={name}>
-                            <p>{label}</p>
-                            {!field.value ? (
-                                <div className="border-dotted border h-[100px] w-[100px] flex items-center justify-center cursor-pointer rounded-md">
-                                    <Upload />
-                                    <input
-                                        id={name}
-                                        type="file"
-                                        accept="image/*"
-                                        hidden
-                                        onChange={(e) => handleUploadImage(e, field)}
-                                        ref={inputRef}
-                                    />
-                                </div>
-                            ) : (
-                                <div className="h-[100px] w-[100px] overflow-hidden group relative cursor-pointer rounded-md">
-                                    <Button
-                                        className="absolute top-0 right-0 z-10 h-[35px] w-[35px] cursor-pointer opacity-0 transition-all group-hover:opacity-100"
-                                        onClick={(e) => onDeleteImage(e, field)}
-                                    >
-                                        <CircleX />
-                                    </Button>
-                                    <Image
-                                        src={
-                                            typeof field.value === "string"
+            render={({ field }) => {
+                return (
+                    <FormItem>
+                        <div className="w-[300px] overflow-hidden cursor-pointer">
+                            <FormLabel className="text-white flex flex-col items-start" htmlFor={name}>
+                                <p>{label}</p>
+                                {!field.value ? (
+                                    <div className="border-dotted border h-[100px] w-[100px] flex items-center justify-center cursor-pointer rounded-md">
+                                        <Upload />
+                                        <input
+                                            id={name}
+                                            type="file"
+                                            accept="image/*"
+                                            hidden
+                                            onChange={(e) => handleUploadImage(e, field)}
+                                            ref={inputRef}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="h-[100px] w-[100px] overflow-hidden group relative cursor-pointer rounded-md">
+                                        <Button
+                                            className="absolute top-0 right-0 z-10 h-[35px] w-[35px] cursor-pointer opacity-0 transition-all group-hover:opacity-100"
+                                            onClick={(e) => onDeleteImage(e, field)}
+                                        >
+                                            <CircleX />
+                                        </Button>
+                                        <Image
+                                            src={
+                                                typeof field.value === "string"
+                                                    ? field.value
+                                                    : URL.createObjectURL(field.value)
+                                            }
+                                            alt="img"
+                                            fill
+                                            className="absolute inset-0 h-full w-full object-cover"
+                                        />
+                                        <Avatar className='aspect-square w-[100px] h-[100px] rounded-md object-cover'>
+                                            <AvatarImage src={typeof field.value === "string"
                                                 ? field.value
-                                                : URL.createObjectURL(field.value)
-                                        }
-                                        alt="img"
-                                        fill
-                                        className="absolute inset-0 h-full w-full object-cover"
-                                    />
-                                    <Avatar className='aspect-square w-[100px] h-[100px] rounded-md object-cover'>
-                                        <AvatarImage src={typeof field.value === "string"
-                                            ? field.value
-                                            : URL.createObjectURL(field.value)} />
-                                        <AvatarFallback className='rounded-none'>{'duoc'}</AvatarFallback>
-                                    </Avatar>
-                                </div>
-                            )}
+                                                : URL.createObjectURL(field.value)} />
+                                            <AvatarFallback className='rounded-none'>{'duoc'}</AvatarFallback>
+                                        </Avatar>
+                                    </div>
+                                )}
 
-                            {nameFile && (
-                                <p className="text-gray-500 text-sm italic">{nameFile}</p>
-                            )}
-                        </FormLabel>
+                                {nameFile && (
+                                    <p className="text-gray-500 text-sm italic">{nameFile}</p>
+                                )}
+                            </FormLabel>
 
-                        <FormMessage />
-                    </div>
-                </FormItem>
-            )}
+                            <FormMessage />
+                        </div>
+                    </FormItem>
+                )
+            }}
         />
     )
 }
