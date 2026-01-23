@@ -12,7 +12,6 @@ import { handleErrorApi, object } from '@/lib/utils'
 import { useUpdateMe } from '@/queries/account/useUpdateMe'
 import { toast } from 'sonner'
 import { useGetMe } from '@/queries/account/useGetMe'
-import { useEffect, useMemo } from 'react'
 
 export default function UpdateProfileForm() {
   const { mutateAsync: uploadImageMutate } = useUploadImage()
@@ -20,34 +19,23 @@ export default function UpdateProfileForm() {
   const { data: profile, refetch } = useGetMe({
     staleTime: 0,
   })
-
-  const defaultValues = useMemo(() => {
-    return {
-      name: profile?.payload.data.name || '',
-      avatar: profile?.payload.data.avatar || ''
-    }
-  }, [profile?.payload])
-
+  const defaultValues: UpdateMeBodyType = {
+    name: '',
+    avatar: ''
+  }
   const form = useForm<UpdateMeBodyType>({
     resolver: zodResolver(UpdateMeBody),
-    defaultValues
-  })
-  const { setError, handleSubmit, setValue, watch } = form
-  const currentAvatar = watch('avatar')
-
-  useEffect(() => {
-    // Chỉ cập nhật khi profile data thực sự có
-    if (profile?.payload?.data) {
-      setValue('name', defaultValues.name)
-      // Chỉ cập nhật avatar nếu:
-      // 1. defaultValues.avatar có giá trị (không phải rỗng)
-      // 2. Và giá trị khác với giá trị hiện tại
-      // Điều này tránh reset avatar về rỗng khi defaultValues.avatar là ''
-      if (defaultValues.avatar && defaultValues.avatar !== currentAvatar) {
-        setValue('avatar', defaultValues.avatar)
-      }
+    defaultValues: {
+      name: '',
+      avatar: ''
+    },
+    values: {
+      name: profile?.payload.data.name ?? '',
+      avatar: profile?.payload.data.avatar ?? '',
     }
-  }, [defaultValues, setValue, profile?.payload?.data, currentAvatar])
+  })
+
+  const { setError, handleSubmit, setValue, reset } = form
 
   const uploadImage = async (file: File) => {
     const formData = new FormData()
@@ -71,13 +59,10 @@ export default function UpdateProfileForm() {
 
       const { payload: { message } } = await updateProfile(payload, {
         onSuccess(data) {
-          // Chỉ cập nhật name ngay lập tức, avatar sẽ được cập nhật sau khi refetch
           setValue('name', data.payload.data.name)
-          // Chỉ cập nhật avatar nếu có trong response (tức là đã upload ảnh mới)
-          if (data.payload.data.avatar !== undefined && data.payload.data.avatar !== null) {
+          if (data.payload.data.avatar) {
             setValue('avatar', data.payload.data.avatar)
           }
-          // Refetch để lấy dữ liệu đầy đủ từ server
           refetch()
         },
       })
@@ -95,7 +80,6 @@ export default function UpdateProfileForm() {
   return (
     <Form {...form} >
       <form className='grid auto-rows-max items-start gap-4 md:gap-8' onSubmit={handleSubmit(onSubmit)}
-        // onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
       >
         <Card x-chunk='dashboard-07-chunk-0'>
           <CardHeader>
@@ -108,9 +92,9 @@ export default function UpdateProfileForm() {
               <Field form={form} label='Tên' name='name' placeholder='Nguyen Van A' />
 
               <div className=' items-center gap-2 md:ml-auto flex'>
-                {/* <Button variant='outline' size='sm' >
+                <Button variant='outline' size='sm' type='button' onClick={() => reset(defaultValues)}>
                   Hủy
-                </Button> */}
+                </Button>
                 <Button size='sm'>
                   Lưu thông tin
                 </Button>

@@ -93,6 +93,7 @@ const ImageUploadField = <T extends FieldValues>(
                                         <Button
                                             className="absolute top-0 right-0 z-10 h-[35px] w-[35px] cursor-pointer opacity-0 transition-all group-hover:opacity-100"
                                             onClick={(e) => onDeleteImage(e, field)}
+                                            type='button'
                                         >
                                             <CircleX />
                                         </Button>
