@@ -79,7 +79,7 @@ export default function UpdateProfileForm() {
 
   return (
     <Form {...form} >
-      <form className='grid auto-rows-max items-start gap-4 md:gap-8' onSubmit={handleSubmit(onSubmit)}
+      <form autoComplete='off' className='grid auto-rows-max items-start gap-4 md:gap-8' onSubmit={handleSubmit(onSubmit)}
       >
         <Card x-chunk='dashboard-07-chunk-0'>
           <CardHeader>
@@ -95,7 +95,7 @@ export default function UpdateProfileForm() {
                 <Button variant='outline' size='sm' type='button' onClick={() => reset(defaultValues)}>
                   Hủy
                 </Button>
-                <Button size='sm'>
+                <Button size='sm' type='submit'>
                   Lưu thông tin
                 </Button>
               </div>

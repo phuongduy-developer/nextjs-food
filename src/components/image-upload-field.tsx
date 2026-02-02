@@ -111,7 +111,7 @@ const ImageUploadField = <T extends FieldValues>(
                                             <AvatarImage src={typeof field.value === "string"
                                                 ? field.value
                                                 : URL.createObjectURL(field.value)} />
-                                            <AvatarFallback className='rounded-none'>{'duoc'}</AvatarFallback>
+                                            <AvatarFallback className='rounded-none'>{name}</AvatarFallback>
                                         </Avatar>
                                     </div>
                                 )}
