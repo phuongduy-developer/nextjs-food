@@ -2,6 +2,7 @@ import { normalizePath } from "./utils";
 import { redirect } from "next/navigation";
 import envConfig from "@/config";
 import { LoginResType } from "@/schemaValidations/auth.schema";
+import { accessTokenKey, refreshTokenKey } from "@/constants/auth";
 
 const ENTITY_ERROR_STATUS = 422; // lỗi xác thực cú pháp email...
 const AUTHENTICATION_ERROR_STATUS = 401; // lỗi authen
@@ -74,10 +75,6 @@ export enum HttpMethod {
 let clientLogoutRequest: null | Promise<any> = null; // tránh gọi logout 2 lần
 
 const isClient = typeof window !== "undefined";
-
-export const accessTokenKey = "accessToken";
-export const refreshTokenKey = "refreshToken";
-export const accessTokenExpiresAt = "accessTokenExpiresAt";
 
 const request = async <Response>(
   method: HttpMethod,

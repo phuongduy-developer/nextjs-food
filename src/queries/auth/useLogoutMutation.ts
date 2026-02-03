@@ -1,4 +1,4 @@
-import authApiRequest from "@/apiRequests/auth";
+import authApiRequest from "@/apiRequests/auth/auth";
 import { HttpError } from "@/lib/http";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 

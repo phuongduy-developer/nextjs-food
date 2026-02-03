@@ -2,12 +2,11 @@ import { clsx, type ClassValue } from "clsx";
 import { UseFormSetError } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import {
-  accessTokenKey,
   EntityError,
-  refreshTokenKey,
 } from "./http";
 import { toast } from "sonner";
 import { isEqual, pick } from "lodash";
+import { accessTokenKey, refreshTokenKey } from "@/constants/auth";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

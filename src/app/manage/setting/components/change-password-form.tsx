@@ -20,10 +20,11 @@ export default function ChangePasswordForm() {
       confirmPassword: ''
     }
   })
-  const { setError, handleSubmit } = form
-  const { mutateAsync: changePassword } = useChangePassword()
+  const { setError, handleSubmit, reset } = form
+  const { mutateAsync: changePassword , isPending} = useChangePassword()
 
   const onSubmit: SubmitHandler<ChangePasswordBodyType> = async (data) => {
+    if (isPending) return;
     changePassword(data, {
       onSuccess(data) {
         toast.success(data.payload.message)
@@ -50,7 +51,7 @@ export default function ChangePasswordForm() {
               <Field form={form} name='password' label='Mật khẩu mới' />
               <Field form={form} name='confirmPassword' label='Nhập lại mật khẩu mới' />
               <div className=' items-center gap-2 md:ml-auto flex'>
-                <Button variant='outline' size='sm'>
+                <Button variant='outline' size='sm' type='reset' onClick={() => reset()}>
                   Hủy
                 </Button>
                 <Button size='sm'>Lưu thông tin</Button>

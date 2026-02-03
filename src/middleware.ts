@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { accessTokenKey } from "./lib/http";
+import { accessTokenKey } from "@/constants/auth";
 import { navigation, UNAUTHORIZED_PATH } from "./constants/navigation";
 
 const privatePaths = [navigation.MANAGE.DASHBOARD, navigation.MANAGE.SETTING];
@@ -23,5 +23,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/manage/:path*", '/login'],
+  matcher: ["/manage/:path*", "/login"],
 };

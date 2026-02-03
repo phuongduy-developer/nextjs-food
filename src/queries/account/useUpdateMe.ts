@@ -1,4 +1,4 @@
-import { accountApiRequest } from "@/apiRequests/account";
+import { accountApiRequest } from "@/apiRequests/account/account";
 import { HttpError } from "@/lib/http";
 import { UpdateMeBodyType } from "@/schemaValidations/account.schema";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";

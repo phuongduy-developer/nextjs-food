@@ -3,14 +3,14 @@ import { cookies } from "next/headers";
 import { decode } from "jsonwebtoken";
 import { HttpError } from "@/lib/http";
 import { ChangePasswordV2BodyType } from "@/schemaValidations/account.schema";
-import { accountApiRequest } from "@/apiRequests/account";
+import { accountServerApiRequest } from "@/apiRequests/account/account-server";
 
 export async function POST(request: Request) {
   const body = (await request.json()) as ChangePasswordV2BodyType;
-  console.log('body', body)
   const cookieStore = await cookies();
+
   try {
-    const { payload } = await accountApiRequest.sChangePassword(body);
+    const { payload } = await accountServerApiRequest.sChangePassword(body);
     const { accessToken, refreshToken } = payload.data;
     const decodedAccessToken = decode(accessToken) as { exp: number };
     const decodedRefreshToken = decode(refreshToken) as { exp: number };
