@@ -1,4 +1,4 @@
-import http from "@/lib/http";
+import http from "@/lib/http-client";
 import { LoginBodyType, LoginResType } from "@/schemaValidations/auth.schema";
 
 //nếu không truyền baseUrl (hoặc baseUrl === undefined) thì lấy từ envConfig.NEXT_PUBLIC_API_ENDPOINT

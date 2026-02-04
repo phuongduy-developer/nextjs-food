@@ -3,7 +3,7 @@ import { UseFormSetError } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import {
   EntityError,
-} from "./http";
+} from "./http-client";
 import { toast } from "sonner";
 import { isEqual, pick } from "lodash";
 import { accessTokenKey, refreshTokenKey } from "@/constants/auth";

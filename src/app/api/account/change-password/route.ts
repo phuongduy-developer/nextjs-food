@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 import { decode } from "jsonwebtoken";
-import { HttpError } from "@/lib/http";
+import { HttpError } from "@/lib/http-client";
 import { ChangePasswordV2BodyType } from "@/schemaValidations/account.schema";
 import { accountServerApiRequest } from "@/apiRequests/account/account-server";
 

@@ -3,57 +3,15 @@ import { redirect } from "next/navigation";
 import envConfig from "@/config";
 import { LoginResType } from "@/schemaValidations/auth.schema";
 import { accessTokenKey, refreshTokenKey } from "@/constants/auth";
+import {
+  EntityError,
+  HttpError,
+  ENTITY_ERROR_STATUS,
+  AUTHENTICATION_ERROR_STATUS,
+  type EntityErrorResponse,
+} from "./http-errors";
 
-const ENTITY_ERROR_STATUS = 422; // lỗi xác thực cú pháp email...
-const AUTHENTICATION_ERROR_STATUS = 401; // lỗi authen
-interface EntityErrorResponse {
-  message: string;
-  errors: {
-    field: string;
-    message: string;
-  }[];
-}
-
-export class HttpError extends Error {
-  status: number;
-  payload: {
-    message: string;
-    [key: string]: any;
-  };
-  constructor({
-    status,
-    payload,
-    message = "Http Error",
-  }: {
-    status: number;
-    payload: {
-      message: string;
-      [key: string]: any;
-    };
-    message?: string;
-  }) {
-    super(message);
-    this.status = status;
-    this.payload = payload;
-  }
-}
-
-export class EntityError extends HttpError {
-  status: typeof ENTITY_ERROR_STATUS;
-  payload: EntityErrorResponse;
-  constructor({
-    payload,
-    status = 422,
-  }: {
-    status?: typeof ENTITY_ERROR_STATUS;
-    payload: EntityErrorResponse;
-  }) {
-    super({ status, payload, message: "Entity Error" }); // Lỗi thực thể
-    //Tuy nhiên, trong TypeScript, đôi khi bạn sẽ thấy người ta viết lại như vậy vì lý do Thu hẹp kiểu dữ liệu (Type Narrowing).
-    this.payload = payload;
-    this.status = status;
-  }
-}
+export { EntityError, HttpError } from "./http-errors";
 
 interface CustomOptions extends Omit<RequestInit, "method" | "body"> {
   baseUrl?: string | undefined;

@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-import { HttpError } from "@/lib/http";
+import { HttpError } from "@/lib/http-client";
 import { accessTokenKey, refreshTokenKey } from "@/constants/auth";
 import authApiServerRequest from "@/apiRequests/auth/auth-server";
 

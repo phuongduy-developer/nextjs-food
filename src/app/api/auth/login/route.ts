@@ -2,7 +2,7 @@ import { LoginBodyType } from "@/schemaValidations/auth.schema";
 import { cookies } from "next/headers";
 
 import { decode } from "jsonwebtoken";
-import { HttpError } from "@/lib/http";
+import { HttpError } from "@/lib/http-client";
 import authApiServerRequest from "@/apiRequests/auth/auth-server";
 
 export async function POST(request: Request) {

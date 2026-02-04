@@ -1,5 +1,5 @@
 import authApiRequest from "@/apiRequests/auth/auth";
-import { HttpError } from "@/lib/http";
+import { HttpError } from "@/lib/http-client";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 
 type LogoutMutationData = Awaited<ReturnType<typeof authApiRequest.logout>>;

@@ -1,4 +1,4 @@
-import http from "@/lib/http";
+import http from "@/lib/http-client";
 import { UploadImageResType } from "@/schemaValidations/media.schema";
 
 const mediaRequest = {

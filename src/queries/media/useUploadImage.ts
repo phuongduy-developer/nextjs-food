@@ -1,5 +1,5 @@
 import { mediaRequest } from "@/apiRequests/media";
-import { HttpError } from "@/lib/http";
+import { HttpError } from "@/lib/http-client";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 
 type UploadImageMutationData = Awaited<ReturnType<typeof mediaRequest.uploadImage>>;

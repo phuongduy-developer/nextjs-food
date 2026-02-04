@@ -4,41 +4,15 @@ import { normalizePath } from "./utils";
 import { redirect } from "next/navigation";
 import { accessTokenKey, refreshTokenKey } from "@/constants/auth";
 import envConfig from "@/config";
-import { EntityError } from "./http";
+import {
+  EntityError,
+  HttpError,
+  ENTITY_ERROR_STATUS,
+  AUTHENTICATION_ERROR_STATUS,
+  type EntityErrorResponse,
+} from "./http-errors";
 
-const ENTITY_ERROR_STATUS = 422; // lỗi xác thực cú pháp email...
-const AUTHENTICATION_ERROR_STATUS = 401; // lỗi authen
-interface EntityErrorResponse {
-  message: string;
-  errors: {
-    field: string;
-    message: string;
-  }[];
-}
-
-export class HttpError extends Error {
-  status: number;
-  payload: {
-    message: string;
-    [key: string]: any;
-  };
-  constructor({
-    status,
-    payload,
-    message = "Http Error",
-  }: {
-    status: number;
-    payload: {
-      message: string;
-      [key: string]: any;
-    };
-    message?: string;
-  }) {
-    super(message);
-    this.status = status;
-    this.payload = payload;
-  }
-}
+export { HttpError } from "./http-errors";
 
 
 interface CustomOptions extends Omit<RequestInit, "method" | "body"> {
