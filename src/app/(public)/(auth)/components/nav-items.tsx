@@ -36,6 +36,7 @@ export default function NavItems({ className }: { className?: string }) {
   // So we keep the first render consistent, then update after mount.
   const [isAuth, setIsAuth] = useState(false);
 
+  // mặc định nextjs là server side rendering nên không thể truy cập vào localStorage nên phải dùng useEffect để render lại component sau khi client đã mount
   useEffect(() => {
     setIsAuth(Boolean(getAccessTokenFromLocalStorage()));
   }, []);
