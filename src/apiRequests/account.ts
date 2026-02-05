@@ -1,7 +1,8 @@
-import http from "@/lib/http-client";
+import http from "@/lib/http";
 import {
   AccountResType,
   ChangePasswordV2BodyType,
+  ChangePasswordV2ResType,
   UpdateMeBodyType,
 } from "@/schemaValidations/account.schema";
 
@@ -16,6 +17,14 @@ const accountApiRequest = {
     http.post<{ message: string }>("/api/account/change-password", {
       body,
       baseUrl: "",
+    }),
+
+  sChangePassword: (body: ChangePasswordV2BodyType, accessToken: string) =>
+    http.put<ChangePasswordV2ResType>("/accounts/change-password-v2", {
+      body,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     }),
 };
 

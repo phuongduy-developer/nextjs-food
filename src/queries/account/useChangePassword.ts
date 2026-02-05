@@ -1,5 +1,5 @@
-import { accountApiRequest } from "@/apiRequests/account/account";
-import { HttpError } from "@/lib/http-client";
+import { accountApiRequest } from "@/apiRequests/account";
+import { HttpError } from "@/lib/http";
 import { ChangePasswordV2BodyType } from "@/schemaValidations/account.schema";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 

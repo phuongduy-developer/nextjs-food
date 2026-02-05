@@ -2,14 +2,15 @@ import { LoginBodyType } from "@/schemaValidations/auth.schema";
 import { cookies } from "next/headers";
 
 import { decode } from "jsonwebtoken";
-import { HttpError } from "@/lib/http-client";
-import authApiServerRequest from "@/apiRequests/auth/auth-server";
+import { HttpError } from "@/lib/http";
+import authApiRequest from "@/apiRequests/auth";
 
 export async function POST(request: Request) {
   const body = (await request.json()) as LoginBodyType;
   const cookieStore = await cookies();
+
   try {
-    const { payload } = await authApiServerRequest.sLogin(body);
+    const { payload } = await authApiRequest.sLogin(body);
     const { accessToken, refreshToken } = payload.data;
     const decodedAccessToken = decode(accessToken) as { exp: number };
     const decodedRefreshToken = decode(refreshToken) as { exp: number };

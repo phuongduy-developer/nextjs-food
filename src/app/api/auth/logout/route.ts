@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 
-import { HttpError } from "@/lib/http-client";
+import { HttpError } from "@/lib/http";
 import { accessTokenKey, refreshTokenKey } from "@/constants/auth";
-import authApiServerRequest from "@/apiRequests/auth/auth-server";
+import authApiRequest from "@/apiRequests/auth";
 
 export async function POST() {
   const cookieStore = await cookies();
@@ -10,7 +10,10 @@ export async function POST() {
   const accessToken = cookieStore.get(accessTokenKey)?.value;
   try {
     if (refreshToken && accessToken) {
-      const { payload } = await authApiServerRequest.slogout(refreshToken);
+      const { payload } = await authApiRequest.slogout({
+        refreshToken,
+        accessToken,
+      });
 
       return Response.json(payload);
     }

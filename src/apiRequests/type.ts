@@ -1,6 +1,5 @@
-import { LogoutBodyType } from "@/schemaValidations/auth.schema"
-
-interface LogoutParams extends LogoutBodyType {
+interface LogoutParams {
+    refreshToken: string
     accessToken: string
 }
 

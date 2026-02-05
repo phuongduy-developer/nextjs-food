@@ -1,4 +1,4 @@
-import { accountApiRequest } from "@/apiRequests/account/account";
+import { accountApiRequest } from "@/apiRequests/account";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
 type GetMeQueryData = Awaited<ReturnType<typeof accountApiRequest.getMe>>;

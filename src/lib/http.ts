@@ -140,6 +140,7 @@ const request = async <Response>(
   // Đảm bảo logic dưới đây chỉ chạy ở phía client (browser) để xét login và register
   if (isClient) {
     const normalizeUrl = normalizePath(url);
+    console.log('normalizeUrl', normalizeUrl)
     if (normalizeUrl === "api/auth/login") {
       const { accessToken, refreshToken } = (payload as LoginResType).data;
       localStorage.setItem(accessTokenKey, accessToken);

@@ -2,6 +2,7 @@
 
 export const UNAUTHORIZED_PATH = {
     LOGIN: '/login',
+    HOME: '/',
 }
 
 export const AUTHORIZED_PATH = {
@@ -15,6 +16,4 @@ export const AUTHORIZED_PATH = {
 export const navigation = {
     ...UNAUTHORIZED_PATH,
     ...AUTHORIZED_PATH,
-    HOME: '/',
-
 }
