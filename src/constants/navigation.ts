@@ -1,19 +1,18 @@
-
-
 export const UNAUTHORIZED_PATH = {
-    LOGIN: '/login',
-    HOME: '/',
-}
+  LOGIN: "/login",
+};
 
 export const AUTHORIZED_PATH = {
-    MANAGE: {
-        DASHBOARD: '/manage/dashboard',
-        SETTING: '/manage/setting',
-    },
-    LOGOUT: '/logout'
-}
+  MANAGE: {
+    GENERAL: "/manage", 
+    DASHBOARD: "/manage/dashboard",
+    SETTING: "/manage/setting",
+  },
+  LOGOUT: "/logout",
+};
 
 export const navigation = {
-    ...UNAUTHORIZED_PATH,
-    ...AUTHORIZED_PATH,
-}
+  HOME: "/",
+  ...UNAUTHORIZED_PATH,
+  ...AUTHORIZED_PATH,
+};

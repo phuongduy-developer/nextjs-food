@@ -37,7 +37,7 @@ const isClient = typeof window !== "undefined";
 const request = async <Response>(
   method: HttpMethod,
   url: string,
-  options?: CustomOptions
+  options?: CustomOptions,
 ) => {
   let body: FormData | string | undefined = undefined;
   if (options?.body instanceof FormData) {
@@ -49,8 +49,8 @@ const request = async <Response>(
     body instanceof FormData
       ? {}
       : {
-        "Content-Type": "application/json",
-      };
+          "Content-Type": "application/json",
+        };
   //    Dùng hàm isClient() cho phép kiểm tra lại mỗi lần gọi, đảm bảo kết quả chính xác ở cả server và client.
   if (isClient) {
     const accessToken = localStorage.getItem(accessTokenKey);
@@ -92,7 +92,7 @@ const request = async <Response>(
         data as {
           status: 422;
           payload: EntityErrorResponse;
-        }
+        },
       );
     } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
       // Trường hợp lỗi liên quan đến authen
@@ -119,8 +119,10 @@ const request = async <Response>(
         }
       } else {
         // server side
+        // Đây là trường hợp khi mà chúng ta vẫn còn access token (còn hạn)
+        // Và chúng ta gọi API ở Next JS server (route handler, server component) đến server backend
         const accessToken = (options?.headers as any)?.Authorization.split(
-          "Bearer " as string
+          "Bearer " as string,
         )[1];
         redirect(`/logout?accessToken=${accessToken}`);
       }
@@ -132,7 +134,7 @@ const request = async <Response>(
             message: string;
             [key: string]: any;
           };
-        }
+        },
       );
     }
   }
@@ -140,7 +142,7 @@ const request = async <Response>(
   // Đảm bảo logic dưới đây chỉ chạy ở phía client (browser) để xét login và register
   if (isClient) {
     const normalizeUrl = normalizePath(url);
-    console.log('normalizeUrl', normalizeUrl)
+    console.log("normalizeUrl", normalizeUrl);
     if (normalizeUrl === "api/auth/login") {
       const { accessToken, refreshToken } = (payload as LoginResType).data;
       localStorage.setItem(accessTokenKey, accessToken);
