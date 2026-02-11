@@ -9,6 +9,12 @@ import {
 // Chỉ dùng cho client. Server dùng account-server.ts (có http-server/server-only).
 const accountApiRequest = {
   getMe: () => http.get<AccountResType>("/accounts/me"),
+  sGetMe: (accessToken: string) =>
+    http.get<AccountResType>("/accounts/me", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }),
   updateMe: (body: UpdateMeBodyType) =>
     http.put<AccountResType>("/accounts/me", {
       body,
