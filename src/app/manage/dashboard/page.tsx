@@ -6,9 +6,9 @@ const DashboardPage = async () => {
   const cookiesStore = await cookies();
   const accessToken = cookiesStore.get(accessTokenKey)?.value as string;
   let name = "";
-  accountApiRequest
+  const res = await accountApiRequest
     .sGetMe(accessToken)
-    .then((res) => (name = res.payload.data.name))
+  name = res.payload.data.name
 
   return <div>Dashboard {name}</div>;
 };
