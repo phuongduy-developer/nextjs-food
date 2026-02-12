@@ -32,5 +32,16 @@ export default function LogoutPage() {
     }
   }, [logoutMutation, refreshTokenFromUrl, accessTokenFromUrl]);
 
+  // useEffect(() => {
+  //   if (ref.current) return;
+  //   ref.current = mutateAsync;
+  //   mutateAsync().then((res) => {
+  //     setTimeout(()=> {
+  //       ref.current = null;
+  //     }, 1000);
+  //     router.replace(navigation.LOGIN)
+  //   });
+  // }, [refreshTokenFromUrl, accessTokenFromUrl]);
+
   return <div className="min-h-screen flex items-center justify-center"></div>;
 }

@@ -1,5 +1,10 @@
 import http from "@/lib/http";
-import { LoginBodyType, LoginResType } from "@/schemaValidations/auth.schema";
+import {
+  LoginBodyType,
+  LoginResType,
+  RefreshTokenBodyType,
+  RefreshTokenResType,
+} from "@/schemaValidations/auth.schema";
 import { LogoutParams } from "./type";
 
 //nếu không truyền baseUrl (hoặc baseUrl === undefined) thì lấy từ envConfig.NEXT_PUBLIC_API_ENDPOINT
@@ -23,11 +28,22 @@ const authApiRequest = {
   slogout: ({ refreshToken, accessToken }: LogoutParams) =>
     http.post<{ message: string }>("/auth/logout", {
       body: {
-        refreshToken: refreshToken,
+        refreshToken,
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
+    }),
+
+  sRefreshToken: ({ refreshToken }: RefreshTokenBodyType) =>
+    http.post<RefreshTokenResType>("/auth/refresh-token", {
+      body: {
+        refreshToken,
+      },
+    }),
+  refreshToken: () =>
+    http.post<RefreshTokenResType>("/api/auth/refresh-token", {
+      baseUrl: "",
     }),
 };
 
