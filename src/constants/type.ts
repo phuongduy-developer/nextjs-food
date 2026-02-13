@@ -46,3 +46,11 @@ export const OrderStatusValues = [
 ] as const
 
 export const ManagerRoom = 'manager' as const
+
+export interface TokenType {
+  userId: number
+  role: string
+  tokenType: string
+  iat: number
+  exp: number
+}

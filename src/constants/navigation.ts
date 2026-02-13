@@ -1,5 +1,8 @@
 export const UNAUTHORIZED_PATH = {
   LOGIN: "/login",
+  LOGOUT: "/logout",
+  REFRESHTOKEN: '/refresh-token',
+  HOME: "/",
 };
 
 export const AUTHORIZED_PATH = {
@@ -8,11 +11,9 @@ export const AUTHORIZED_PATH = {
     DASHBOARD: "/manage/dashboard",
     SETTING: "/manage/setting",
   },
-  LOGOUT: "/logout",
 };
 
 export const navigation = {
-  HOME: "/",
   ...UNAUTHORIZED_PATH,
   ...AUTHORIZED_PATH,
 };

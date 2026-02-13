@@ -4,6 +4,7 @@ import { decode } from "jsonwebtoken";
 import { HttpError } from "@/lib/http";
 import authApiRequest from "@/apiRequests/auth";
 import { refreshTokenKey } from "@/constants/auth";
+import { TokenType } from "@/constants/type";
 
 export async function POST() {
   const cookieStore = await cookies();
@@ -25,8 +26,8 @@ export async function POST() {
       refreshToken: refreshTokenStore,
     });
     const { accessToken, refreshToken } = payload.data;
-    const decodedAccessToken = decode(accessToken) as { exp: number };
-    const decodedRefreshToken = decode(refreshToken) as { exp: number };
+    const decodedAccessToken = decode(accessToken) as TokenType;
+    const decodedRefreshToken = decode(refreshToken) as TokenType;
     cookieStore.set("accessToken", accessToken, {
       path: "/",
       httpOnly: true,
