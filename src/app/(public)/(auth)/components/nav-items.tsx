@@ -1,5 +1,6 @@
 "use client";
 
+import { navigation } from "@/constants/navigation";
 import { getAccessTokenFromLocalStorage } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -16,12 +17,12 @@ const menuItems = [
   },
   {
     title: "Đăng nhập",
-    href: "/login",
+    href: navigation.LOGIN,
     authRequired: false, //Khi false nghĩa là chưa đăng nhập thì sẽ hiển thị
   },
   {
     title: "Quản lý",
-    href: "/manage/dashboard",
+    href: navigation.MANAGE.DASHBOARD,
     authRequired: true, // đăng nhập rồi mới hiển thị
   },
 ];

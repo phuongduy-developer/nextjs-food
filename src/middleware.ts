@@ -31,19 +31,27 @@ export function middleware(request: NextRequest) {
 
   // Chưa đăng nhập thì không cho vào private path
   if (isPrivatePath && !isAuthenticated) {
-    return NextResponse.redirect(createRedirectUrl(navigation.LOGIN, request.url));
+    return NextResponse.redirect(
+      createRedirectUrl(navigation.LOGIN, request.url),
+    );
   }
 
   // Trường hợp đăng nhập rồi nhưng accessToken hết hạn
   if (isPrivatePath && !hasAccessToken && isAuthenticated) {
-    const logoutUrl = createRedirectUrl(navigation.LOGOUT, request.url);
-    logoutUrl.searchParams.set(refreshTokenKey, refreshToken!);
-    return NextResponse.redirect(logoutUrl);
+    const refreshTokenUrl = createRedirectUrl(
+      navigation.REFRESHTOKEN,
+      request.url,
+    );
+    refreshTokenUrl.searchParams.set(refreshTokenKey, refreshToken!);
+    refreshTokenUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(refreshTokenUrl);
   }
 
   // Đăng nhập rồi thì không cho vào page login, vào trang chủ
   if (isUnAuthPath && isAuthenticated) {
-    return NextResponse.redirect(createRedirectUrl(navigation.HOME, request.url));
+    return NextResponse.redirect(
+      createRedirectUrl(navigation.HOME, request.url),
+    );
   }
 
   return NextResponse.next();
