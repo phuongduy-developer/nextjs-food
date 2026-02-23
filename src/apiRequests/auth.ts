@@ -11,6 +11,10 @@ import { LogoutParams } from "./type";
 //Nếu truyền baseUrl thì lấy giá trị truyền vào, truyền vào '' thì đồng nghĩa với việc chúng ta gọi API đến Next JS server
 
 const authApiRequest = {
+  refreshTokenRequest: null as Promise<{
+    status: number;
+    payload: RefreshTokenResType;
+  }> | null,
   login: (body: LoginBodyType) =>
     http.post<LoginResType>("/api/auth/login", {
       body,
@@ -41,10 +45,20 @@ const authApiRequest = {
         refreshToken,
       },
     }),
-  refreshToken: () =>
-    http.post<RefreshTokenResType>("/api/auth/refresh-token", {
-      baseUrl: "",
-    }),
+  async refreshToken() {
+    if (this.refreshTokenRequest) {
+      return this.refreshTokenRequest;
+    }
+    this.refreshTokenRequest = http.post<RefreshTokenResType>(
+      "/api/auth/refresh-token",
+      {
+        baseUrl: "",
+      },
+    );
+    const result = this.refreshTokenRequest;
+    this.refreshTokenRequest = null;
+    return result;
+  },
 };
 
 export default authApiRequest;

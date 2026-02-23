@@ -43,5 +43,5 @@ export default function LogoutPage() {
   //   });
   // }, [refreshTokenFromUrl, accessTokenFromUrl]);
 
-  return <div className="min-h-screen flex items-center justify-center"></div>;
+  return <></>
 }
