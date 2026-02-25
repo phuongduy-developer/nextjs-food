@@ -24,20 +24,15 @@ export function middleware(request: NextRequest) {
   const isPrivatePath = matchesPath(pathname, privatePaths);
   const isUnAuthPath = matchesPath(pathname, unAuthPaths);
 
-  // Trang chủ thì không cần đăng nhập
-  if (pathname === navigation.HOME) {
-    return NextResponse.next();
-  }
-
-  // Chưa đăng nhập thì không cho vào private path
-  if (isPrivatePath && !isAuthenticated) {
+  // Đăng nhập rồi thì không cho vào page login, vào trang chủ
+  if (isUnAuthPath && isAuthenticated) {
     return NextResponse.redirect(
-      createRedirectUrl(navigation.LOGIN, request.url),
+      createRedirectUrl(navigation.HOME, request.url),
     );
   }
 
   // Trường hợp đăng nhập rồi nhưng accessToken hết hạn
-  if (isPrivatePath && !hasAccessToken && isAuthenticated) {
+  if (isAuthenticated && isPrivatePath && !hasAccessToken) {
     const refreshTokenUrl = createRedirectUrl(
       navigation.REFRESHTOKEN,
       request.url,
@@ -47,10 +42,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(refreshTokenUrl);
   }
 
-  // Đăng nhập rồi thì không cho vào page login, vào trang chủ
-  if (isUnAuthPath && isAuthenticated) {
+  // Chưa đăng nhập thì không cho vào private path
+  if (isPrivatePath && !isAuthenticated) {
     return NextResponse.redirect(
-      createRedirectUrl(navigation.HOME, request.url),
+      createRedirectUrl(navigation.LOGIN, request.url),
     );
   }
 

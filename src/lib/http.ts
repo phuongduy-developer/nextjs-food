@@ -105,7 +105,6 @@ const request = async <Response>(
           });
           try {
             await clientLogoutRequest;
-          } catch {
           } finally {
             localStorage.removeItem(accessTokenKey);
             localStorage.removeItem(refreshTokenKey);
@@ -121,7 +120,7 @@ const request = async <Response>(
         // server side
         // Đây là trường hợp khi mà chúng ta vẫn còn access token (còn hạn)
         // Và chúng ta gọi API ở Next JS server (route handler, server component) đến server backend
-        
+
         const accessToken = (options?.headers as any)?.Authorization.split(
           "Bearer " as string,
         )[1];
@@ -143,7 +142,6 @@ const request = async <Response>(
   // Đảm bảo logic dưới đây chỉ chạy ở phía client (browser) để xét login và register
   if (isClient) {
     const normalizeUrl = normalizePath(url);
-    console.log("normalizeUrl", normalizeUrl);
     if (normalizeUrl === "api/auth/login") {
       const { accessToken, refreshToken } = (payload as LoginResType).data;
       localStorage.setItem(accessTokenKey, accessToken);

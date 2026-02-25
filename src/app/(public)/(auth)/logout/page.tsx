@@ -21,12 +21,13 @@ export default function LogoutPage() {
       router.replace(navigation.LOGIN);
     },
   });
+  
   useEffect(() => {
     if (
       (refreshTokenFromUrl &&
         refreshTokenFromUrl === getRefreshTokenFromLocalStorage()) ||
       (accessTokenFromUrl &&
-        accessTokenFromUrl === getAccessTokenFromLocalStorage())
+        accessTokenFromUrl === getAccessTokenFromLocalStorage()) // server componetnt trong http khi bị 401
     ) {
       logoutMutation();
     }
