@@ -73,6 +73,13 @@ export const object = {
   },
 };
 
+export const removeTokenFromLocalStorage = () => {
+  if (isClient) {
+    localStorage.removeItem(accessTokenKey);
+    localStorage.removeItem(refreshTokenKey);
+  }
+};
+
 export const checkAndRefreshToken = async (param?: {
   onError?: () => void;
   onSuccess?: () => void;
@@ -96,7 +103,10 @@ export const checkAndRefreshToken = async (param?: {
   const now = Math.round(new Date().getTime() / 1000);
 
   //trường hợp refreshToken hết hạn thì không xử lí nữa
-  if (decodedRefreshToken.exp <= now) return;
+  if (decodedRefreshToken.exp <= now) {
+    removeTokenFromLocalStorage();
+    return param?.onError?.();
+  }
   // Ví dụ access token của chúng ta có thời gian hết hạn là 10s
   // thì mình sẽ kiểm tra còn 1/3 thời gian (3s) thì mình sẽ cho refresh token lại
   // Thời gian còn lại sẽ tính dựa trên công thức: decodedAccessToken.exp - now

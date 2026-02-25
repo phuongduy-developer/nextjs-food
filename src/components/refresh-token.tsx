@@ -1,19 +1,20 @@
 "use client";
 
-import { UNAUTHORIZED_PATH } from "@/constants/navigation";
+import { navigation, UNAUTHORIZED_PATH } from "@/constants/navigation";
 import { TokenType } from "@/constants/type";
 import {
   checkAndRefreshToken,
   getAccessTokenFromLocalStorage,
 } from "@/lib/utils";
 import { decode } from "jsonwebtoken";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 let interval: NodeJS.Timeout | undefined;
 
 const RefreshToken = () => {
   const pathname = usePathname();
+  const router = useRouter();
   useEffect(() => {
     if (Object.values(UNAUTHORIZED_PATH).includes(pathname)) return;
 
@@ -21,6 +22,9 @@ const RefreshToken = () => {
     checkAndRefreshToken({
       onError() {
         clearInterval(interval);
+        router.replace(navigation.LOGIN,{
+          scroll: true
+        });
       },
     });
 
@@ -46,13 +50,18 @@ const RefreshToken = () => {
     };
     const TIMEOUT = getRefreshIntervalMs();
     interval = setInterval(() => {
-      checkAndRefreshToken();
+      checkAndRefreshToken({
+        onError: () => {
+          clearInterval(interval);
+          router.replace(navigation.LOGIN);
+        },
+      });
     }, TIMEOUT);
 
     return () => {
       clearInterval(interval);
     };
-  }, [pathname]);
+  }, [pathname, router]);
 
   return null;
 };
