@@ -15,11 +15,16 @@ import Field from "@/components/field";
 import { useLoginMutation } from "@/queries/auth/useLoginMutaion";
 import { toast } from "sonner";
 import { handleErrorApi } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { navigation } from "@/constants/navigation";
+import { useEffect } from "react";
+import { clearTokensKey } from "@/constants/auth";
+import { useAppContext } from "@/components/app-provider";
 
 export default function LoginForm() {
-  const router = useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { setIsAuth } = useAppContext();
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody),
     defaultValues: {
@@ -27,7 +32,7 @@ export default function LoginForm() {
       password: "",
     },
   });
-
+  const clearTokens = JSON.parse(searchParams.get(clearTokensKey) || "false");
   const { handleSubmit, setError } = form;
   const { mutateAsync: loginFn, isPending } = useLoginMutation();
 
@@ -35,8 +40,8 @@ export default function LoginForm() {
     loginFn(data, {
       onSuccess(data) {
         toast.success(data.payload.message);
-        router.replace(navigation.MANAGE.DASHBOARD)
-        router.refresh()
+        router.replace(navigation.MANAGE.DASHBOARD);
+        router.refresh();
       },
       onError(error) {
         handleErrorApi({
@@ -46,6 +51,13 @@ export default function LoginForm() {
       },
     });
   };
+
+  useEffect(() => {
+    if (clearTokens) {
+      setIsAuth(false);
+      router.replace(navigation.LOGIN);
+    }
+  }, [clearTokens, router, setIsAuth]);
 
   return (
     <Card className="mx-auto max-w-sm w-full">

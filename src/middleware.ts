@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { accessTokenKey, refreshTokenKey } from "@/constants/auth";
+import { accessTokenKey, clearTokensKey, refreshTokenKey } from "@/constants/auth";
 import { navigation } from "./constants/navigation";
 
 const privatePaths = [navigation.MANAGE.GENERAL];
@@ -44,9 +44,9 @@ export function middleware(request: NextRequest) {
 
   // Chưa đăng nhập thì không cho vào private path
   if (isPrivatePath && !isAuthenticated) {
-    return NextResponse.redirect(
-      createRedirectUrl(navigation.LOGIN, request.url),
-    );
+    const url = createRedirectUrl(navigation.LOGIN, request.url);
+    url.searchParams.set(clearTokensKey, "true");
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
