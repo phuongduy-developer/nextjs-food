@@ -21,7 +21,7 @@ export default function LogoutPage() {
       router.replace(navigation.LOGIN);
     },
   });
-  
+
   useEffect(() => {
     if (
       (refreshTokenFromUrl &&
@@ -30,8 +30,10 @@ export default function LogoutPage() {
         accessTokenFromUrl === getAccessTokenFromLocalStorage()) // server componetnt trong http khi bị 401
     ) {
       logoutMutation();
+    } else {
+      router.replace(navigation.HOME)
     }
-  }, [logoutMutation, refreshTokenFromUrl, accessTokenFromUrl]);
+  }, [logoutMutation, refreshTokenFromUrl, accessTokenFromUrl, router]);
 
   // useEffect(() => {
   //   if (ref.current) return;

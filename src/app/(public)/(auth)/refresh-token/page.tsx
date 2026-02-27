@@ -23,6 +23,8 @@ export default function RefreshTokenPage() {
       checkAndRefreshToken({
         onSuccess: () => router.replace(redirectPathname || navigation.HOME),
       });
+    } else {
+      router.replace(navigation.HOME)
     }
   }, [refreshTokenFromUrl, redirectPathname, router]);
 
